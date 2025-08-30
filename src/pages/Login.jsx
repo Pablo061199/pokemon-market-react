@@ -17,13 +17,14 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
+    
     const userLogin = new UserLogin(email, password);
 
     const res = await loginUser(userLogin);
     try {
       if (switchUser) switchUser(res.user.email);
       setSuccess("Bienvenido " + res.user.email);
+      navigate("/pokemons");
     } catch (err) {
       setError(err.message);
     }
