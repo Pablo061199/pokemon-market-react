@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redirecciones (para React Router o rutas protegidas)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Ejemplo de headers de seguridad
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
