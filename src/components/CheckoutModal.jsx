@@ -2,50 +2,61 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const CheckoutModal = ({ cart, onClose }) => {
-  const [status, setStatus] = useState(null);
-  const [loading, setLoading] = useState(false);
+const [status, setStatus] = useState(null);
+const [loading, setLoading] = useState(false);
 
-  const handleCheckout = async () => {
-    if (cart.items.length === 0) {
-      alert("El carrito está vacío");
+let successCounter = 0;
+ 
+const handleCheckout = async () => {
+  if (cart.items.length === 0) {
+    alert("El carrito está vacío");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    let success = Math.random() > 0.3;
+    if (success) {
+      successCounter++;
+      if (successCounter >= 5) {
+        success = false;
+        successCounter = 0;
+      }
+    }
+
+    if (!success) {
+      setStatus("fail");
+      setLoading(false);
       return;
     }
 
-    setLoading(true);
+    const orderData = {
+      items: cart.items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        types: item.types,
+        price: item.price,
+        quantity: item.quantity || 1,
+      })),
+      total: cart.calculateTotal(),
+      date: new Date().toISOString(),
+    };
 
-    try {
-      const success = Math.random() > 0.3;
-      await new Promise((res) => setTimeout(res, 1000));
+    await axios.post("http://localhost:3001/orders", orderData);
 
-      if (!success) {
-        setStatus("fail");
-        setLoading(false);
-        return;
-      }
+    setStatus("success");
+    cart.clear();
+  } catch (error) {
+    console.error("Error registrando la orden:", error);
+    alert("Error al registrar la orden");
+  }
 
-      const orderData = {
-        items: cart.items.map((item) => ({
-          id: item.id,
-          name: item.name,
-          types: item.types,
-          price: item.price,
-          quantity: item.quantity || 1,
-        })),
-        total: cart.calculateTotal(),
-        date: new Date().toISOString(),
-      };
+  setLoading(false);
+};
 
-      await axios.post("http://localhost:3001/orders", orderData);
-
-      setStatus("success");
-      cart.clear();
-    } catch (error) {
-      console.error("Error registrando la orden:", error);
-      alert("Error al registrar la orden");
-    }
-
-    setLoading(false);
-  };
 
   return (
     <div
