@@ -21,6 +21,10 @@ export class Cart {
 
   clear() {
     this.items = [];
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    cart[user.email] = { items: [] };
+    localStorage.setItem("cart", JSON.stringify(cart));
   }
 
   static fromJSON(data) {
