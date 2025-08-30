@@ -24,7 +24,6 @@ export default function Login() {
     try {
       if (switchUser) switchUser(res.user.email);
       setSuccess("Bienvenido " + res.user.email);
-      navigate("/pokemons"); // redirige a Home
     } catch (err) {
       setError(err.message);
     }
@@ -38,7 +37,6 @@ export default function Login() {
       <Row className="w-100">
         <Col md={4} className="mx-auto">
           <div className="text-center mb-4">
-            {/* Logo (coloca logo.png en /public) */}
             <img src="/logo-pokemon.png" alt="Logo" style={{ width: "400px" }} />
             <h3 className="mt-2">Inicio de Session</h3>
           </div>

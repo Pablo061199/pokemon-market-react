@@ -18,7 +18,6 @@ const Home = () => {
 
   const [showCheckout, setShowCheckout] = useState(false);
 
-  // cargar Pokémon desde service
   useEffect(() => {
     const loadPokemons = async () => {
       const data = await fetchPokemons();
@@ -28,7 +27,6 @@ const Home = () => {
     loadPokemons();
   }, []);
 
-  // aplicar filtros cada vez que cambien pokemons o filtros
   useEffect(() => {
     let filtered = [...pokemons];
 
@@ -58,7 +56,6 @@ const Home = () => {
       });
     }
 
-    // si no hay filtros, mostrar primeros 20
     if (!search && !filterType && !minPrice && !maxPrice && !sortField) {
       setFilteredPokemons(pokemons.slice(0, 20));
     } else {

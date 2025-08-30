@@ -14,9 +14,8 @@ const CheckoutModal = ({ cart, onClose }) => {
     setLoading(true);
 
     try {
-      // Simulación de pago (70% éxito)
       const success = Math.random() > 0.3;
-      await new Promise((res) => setTimeout(res, 1000)); // Delay de 1s
+      await new Promise((res) => setTimeout(res, 1000));
 
       if (!success) {
         setStatus("fail");
@@ -24,7 +23,6 @@ const CheckoutModal = ({ cart, onClose }) => {
         return;
       }
 
-      // Datos a enviar a json-server
       const orderData = {
         items: cart.items.map((item) => ({
           id: item.id,
@@ -37,11 +35,10 @@ const CheckoutModal = ({ cart, onClose }) => {
         date: new Date().toISOString(),
       };
 
-      // POST a json-server
       await axios.post("http://localhost:3001/orders", orderData);
 
       setStatus("success");
-      cart.clear(); // Vacía el carrito
+      cart.clear();
     } catch (error) {
       console.error("Error registrando la orden:", error);
       alert("Error al registrar la orden");

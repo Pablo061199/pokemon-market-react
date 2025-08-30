@@ -16,13 +16,12 @@ export const CartProvider = ({ children }) => {
   const loadCarts = () => JSON.parse(localStorage.getItem("cart") || "{}");
   const saveCarts = (carts) => localStorage.setItem("cart", JSON.stringify(carts));
 
-  // 🔹 cargar carrito cada vez que cambia el email
   useEffect(() => {
     const currentEmail = getUserEmail();
     if (currentEmail !== email) {
       setEmail(currentEmail);
     }
-  }, [email]); // ⚡ usar email como dependencia, no localStorage
+  }, [email]);
 
   useEffect(() => {
     if (!email) {
@@ -36,7 +35,6 @@ export const CartProvider = ({ children }) => {
     setReady(true);
   }, [email]);
 
-  // guardar carrito del usuario actual
   useEffect(() => {
     if (!ready || !email) return;
     const carts = loadCarts();
@@ -59,7 +57,6 @@ export const CartProvider = ({ children }) => {
     setCart(Cart.fromJSON(cart));
   };
 
-  // 🔹 método para forzar cambiar usuario desde login/logout
   const switchUser = (newEmail) => setEmail(newEmail);
 
   return (

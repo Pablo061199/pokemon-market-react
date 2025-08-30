@@ -23,7 +23,6 @@ export class Cart {
     this.items = [];
   }
 
-  // 🔹 reconstrucción desde JSON
   static fromJSON(data) {
     const cart = new Cart();
     cart.items = (data.items || []).map(
